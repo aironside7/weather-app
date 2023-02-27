@@ -2,7 +2,8 @@ import React from 'react'
 import axios from "axios"
 import { useState } from 'react'
 import { useEffect } from 'react'
-import Weathercom from './Weathercom'
+import "./App.css"
+
 
 const App = () => {
   const [city, setCity] = useState("");
@@ -24,7 +25,7 @@ const App = () => {
       })
       .catch((err) => {
         if (err.response && err.response.status === 404) {
-          alert("Invalid city");
+          alert("Enter a Valid city name");
         } else {
           console.log("err", err);
         }
@@ -44,22 +45,39 @@ const App = () => {
   useEffect(() => {
     getData("Kolkata");
   }, []);
+  // <form id="form" action="/">
+  // <h1>Registration</h1>
+  // <div class="input-control">
+  //   <label for="username">Username</label>
+  //   <input
+  //     id="username"
+  //     type="text"
+  //     name="username"
+  //     placeholder="Please enter your name"
+  //   />
 
   return (
     <div>
       <div>
-        <h1>Weather App</h1>
-        <form onSubmit={handleSearch}>
+        <h1 className='head'>WEATHER APP</h1>
+        <form id="form" onSubmit={handleSearch}>
+          <div className="input-control">
           <input type="text" onChange={handleChange} value={city} name="Search" placeholder="Enter city name" />
-          <button type='submit'>Search</button>
+
+          </div>
+          {/* <button type='submit'>Search</button> */}
         </form>
-        <p>Previous 3 searched cities: {searchHistory.map((city) => city + " ")}</p>
+        <div className='cont'>
+        <h1>Previous searched cities: {searchHistory.map((city) => city + ", ")}</h1>
         <p>Weather Details of {data?.name}</p>
         <p>Current temperature {(data?.main?.temp - 273.15).toFixed(1)}°C</p>
         <p>Temperature range {(data?.main?.temp_max - 273.15).toFixed(1)}°C to {(data?.main?.temp_min - 273.15).toFixed(1)}°C</p>
         <p>Humidity: {data?.main?.humidity}</p>
         <p>Sea level: {((data?.main?.temp - 273.15).toFixed(1)) * 40}</p>
         <p>Ground level: {((data?.main?.temp - 273.15).toFixed(1)) * 36}</p>
+
+        </div>
+        
       </div>
     </div>
   );
